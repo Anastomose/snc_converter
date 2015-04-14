@@ -1,4 +1,5 @@
 #Files that will be ignored by git
 .gitignore
+.gitignore~
 *.pyc
 *.*~
