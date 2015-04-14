@@ -1,3 +1,3 @@
 def something_new():
-    print "your mom"
+    print "I am a new function"
     return None
