@@ -9,9 +9,20 @@ def csv_read(filename):
         for row in reader:
             yield row
 
-def var_headers(line):
-    """returns list of variable header values
-       function depricated
+def create_variable_data(gen):
+    """creates variable data dict from csv generator
     """
-    dict_keys = [k for k in line[0].split(',')]
-    return dict_keys
+    for row in gen:
+        if 'Start data' in row:
+            # headerline = 
+            varHeaderValues = gen.next()  # var_headers(headerline)
+            varValues =[[] for l in range(0, len(varHeaderValues))]
+            break
+
+    # here we take existing generator's state and append data values
+    for row in gen:
+        if 'End data' not in row:
+            # temp_r = row[0].split(',')
+            [vV.append(r) for vV, r in zip(varValues, row)]
+    variable_data = {vH: vV for vH, vV in zip(varHeaderValues, varValues)}
+    return variable_data
