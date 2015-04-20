@@ -9,12 +9,14 @@ from cdf_tools import snc_funcs as sf
 
 t_file = 'tdata/test_delim_tab.tsv'
 
+
 def gen_setup():
     """returns generator for testing
     """
     temp = sf.csv_read(t_file)
     for row in temp:
         yield row
+
 
 def test_reader():
     """test csv_read function"""
@@ -23,19 +25,31 @@ def test_reader():
     for r in temp:
         assert r is not None
         assert r[0] is not None
+        assert type(r) is list
+    # assert False
 
-    assert False
 
-def test_var_header():
-    """test var_headers row function
+def test_create_var_data():
+    """test create_variable_data function
     """
     temp = gen_setup()
-    for line in temp:
-        if 'Start data' in line:
-            headers = sf.var_headers(temp.next())
-            break
+    test_dict = sf.create_variable_data(temp)
 
-    assert type(headers) is list
-    assert False
+    assert type(test_dict) is dict
+    assert type(test_dict.keys()) is list
+    assert test_dict.keys()[0] == 'fCO2_water_equi_uatm'  
+    # assert False
 
+def test_list_splitter():  
+    templist = [["conventions, a, b, c"], ["FeatureType, 1,2,3"]]
+    alpha_list = sf.list_splitter(templist[0][0].split(','), 'conventions')
+    beta_list = sf.list_splitter(templist[1][0].split(','), 'FeatureType')
+    
+    print templist[0], alpha_list
+    print templist[1], beta_list
+
+    assert type(alpha_list) is list
+    assert len(alpha_list) is not None
+    assert alpha_list[0] != []
+    # assert False
 
