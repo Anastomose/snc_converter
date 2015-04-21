@@ -1,4 +1,5 @@
 import csv
+import re
 
 
 def csv_read(filename):
@@ -22,27 +23,29 @@ def create_cfs(gen):
             + conventions
             + FeatureType
             + snc_DateTime
+        Lines must be quoted in order to be processed with current tooling
     """
     conv = []
     ft = []
     dt = []
 
     for r in gen:
-        line = r[0].split(',')
-        n_line = [l.lower() for l in line]
+        n_line = list_item_scrub(r)
         if 'conventions' in n_line:
-            conv += list_splitter(line, 'conventions')
-        elif 'FeatureType' in n_line:
-            ft += list_splitter(line, 'featuretype')
-        elif 'snc_DateTime' in n_line:
-            dt += list_splitter(line, 'snc_datetime')
+            conv += list_splitter(n_line, 'conventions')
+        elif 'featuretype' in n_line:
+            ft += list_splitter(n_line, 'featuretype')
+        elif 'snc_datetime' in n_line:  # re.search('date', n_line)
+            dt += list_splitter(n_line, 'snc_datetime')
+
+        # note here we may need to create a checker for the snc obj
+        # to deal with cases where more than 1 line has the same kwarg
 
     try: 
         gen.close()
     except AttributeError:
         pass
     return (conv, ft, dt)
-
 
 
 def list_splitter(l, kwarg):
@@ -53,6 +56,14 @@ def list_splitter(l, kwarg):
         return l[arg_address:]
 
 
+def list_item_scrub(l):
+    """returns csv split line from attributes at top of snc_tsv file
+    """
+    line = l[0].split(',')
+    temp_line = [i.lower() for i in line]
+    n_line = [j.strip(' ') for j in temp_line]
+    return n_line
+
 
 def create_variable_data(gen):
     """creates variable data dict from csv generator between 'Start data'
@@ -62,7 +73,7 @@ def create_variable_data(gen):
         if 'Start data' in row:
             # headerline =
             varHeaderValues = gen.next()  # var_headers(headerline)
-            varValues =[[] for l in range(0, len(varHeaderValues))]
+            varValues = [[] for l in range(0, len(varHeaderValues))]
             break
 
     # here we take existing generator's state and append data values
@@ -77,3 +88,4 @@ def create_variable_data(gen):
     except AttributeError:
         pass
     return variable_data
+    

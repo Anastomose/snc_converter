@@ -40,7 +40,10 @@ def test_create_var_data():
     assert test_dict.keys()[0] == 'fCO2_water_equi_uatm'  
     # assert False
 
+
 def test_list_splitter():  
+    """test list_splitter function for populating attributes
+    """
     templist = [["conventions, a, b, c"], ["FeatureType, 1,2,3"]]
     alpha_list = sf.list_splitter(templist[0][0].split(','), 'conventions')
     beta_list = sf.list_splitter(templist[1][0].split(','), 'FeatureType')
@@ -53,3 +56,16 @@ def test_list_splitter():
     assert alpha_list[0] != []
     # assert False
 
+
+def test_create_cfs():
+    temp = gen_setup()
+
+    conv, ft, dt = sf.create_cfs(temp)
+    
+    print conv
+    print ft
+    print dt
+
+    assert type(conv) is list
+    for i in [conv, ft, dt]:
+        assert i != []
