@@ -41,7 +41,7 @@ def create_cfs(gen):
         # note here we may need to create a checker for the snc obj
         # to deal with cases where more than 1 line has the same kwarg
 
-    try: 
+    try:
         gen.close()
     except AttributeError:
         pass
@@ -88,4 +88,3 @@ def create_variable_data(gen):
     except AttributeError:
         pass
     return variable_data
-    
