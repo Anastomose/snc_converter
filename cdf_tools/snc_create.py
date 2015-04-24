@@ -1,7 +1,4 @@
-from snc_funcs import (csv_read,
-                       create_variable_data,
-                       create_cfs,
-                       create_extra_variables)
+import snc_funcs as sf
 
 
 class snc_create(object):
@@ -25,16 +22,16 @@ class snc_create(object):
     def __init__(self, tsv_file):
         self.tsv_file = tsv_file  # eventually want to update with argv
 
-        # content of tsv file turned into list of lists
-        reader_object = csv_read(self.tsv_file)
-
+        tsv_gen_object = sf.tsv_gen(tsv_file)
         self.conventions, self.FeatureType, self.snc_DateTime \
-            = create_cfs(reader_object)
+            = sf.create_cfs(tsv_gen_object)
 
-        self.snc_Extra_variables = create_extra_variables(reader_object)
+        self.VariableValues = sf.create_variable_data(tsv_gen_object)
+        tsv_gen_object.close()
 
-        self.VariableHeaders = dict()
+        self.VariableHeaders = self.VariableValues.keys()
         """dict will hold, header: std_name, long_name,
            units, missing value, ioos_cat"""
 
-        self.VariableValues = create_variable_data(reader_object)
+        tsv_list = sf.tsv_read(self.tsv_file)
+        self.snc_Extra_variables = sf.create_extra_variables(tsv_list)

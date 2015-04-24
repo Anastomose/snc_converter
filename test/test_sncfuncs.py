@@ -10,13 +10,13 @@ from cdf_tools import snc_funcs as sf
 t_file = 'tdata/test_delim_tab.tsv'
 
 
-temp = sf.csv_read(t_file)
-# def gen_setup():
-#     """returns generator for testing
-#     """
-# for row in temp:
-#     yield row
+temp = sf.tsv_read(t_file)
 
+def gen_setup():
+    """returns generator for testing
+    """
+    gen = sf.tsv_gen(t_file)
+    return gen
 
 def test_reader():
     """test csv_read function"""
@@ -32,23 +32,23 @@ def test_reader():
 def test_create_var_data():
     """test create_variable_data function
     """
-    # temp = gen_setup()
-    test_dict = sf.create_variable_data(temp)
+    temp_gen = gen_setup()
+    t_dict = sf.create_variable_data(temp_gen)
 
-    assert type(test_dict) is dict
-    assert type(test_dict.keys()) is list
-    print test_dict.keys()[0]
-    assert test_dict.keys()[0] == 'fCO2_water_equi_uatm'  
+    assert type(t_dict) is dict
+    assert type(t_dict.keys()) is list
+    print t_dict.keys()[0]
+    assert t_dict.keys()[0] == 'fCO2_water_equi_uatm'
     # assert False
 
 
-def test_list_splitter():  
+def test_list_splitter():
     """test list_splitter function for populating attributes
     """
     templist = [["conventions, a, b, c"], ["FeatureType, 1,2,3"]]
     alpha_list = sf.list_splitter(templist[0][0].split(','), 'conventions')
     beta_list = sf.list_splitter(templist[1][0].split(','), 'FeatureType')
-    
+
     print templist[0], alpha_list
     print templist[1], beta_list
 
@@ -59,22 +59,18 @@ def test_list_splitter():
 
 
 def test_create_cfs():
-    # temp = gen_setup()
-    # print type(temp)
-
     conv, ft, dt = sf.create_cfs(temp)
-    
-    print conv
-    print ft
-    print dt
-
+    # print conv
+    # print ft
+    # print dt
     assert type(conv) is list
     for i in [conv, ft, dt]:
         assert i != []
+    # assert False
 
-def test_create_exvars():
-    exv_dict = sf.create_extra_variables(temp)
-    assert type(exv_dict) is dict
-    assert exv_dict.get('vessel_name') is not None
-    assert exv_dict.keys() == ['vessel_name', 'dataset_name']
-    assert False
+# def test_create_exvars():
+#     exv_dict = sf.create_extra_variables(temp)
+#     assert type(exv_dict) is dict
+#     assert exv_dict.get('vessel_name') is not None
+#     assert exv_dict.keys() == ['vessel_name', 'dataset_name']
+#     assert False

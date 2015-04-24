@@ -2,7 +2,15 @@ import csv
 import re
 
 
-def csv_read(filename):
+def tsv_read(filename):
+    """creates list object with all tsv file contents"""
+    with open(filename, 'rb') as fid:
+        reader = csv.reader(fid, dialect='excel-tab')
+        file_content = [row for row in reader]
+        return file_content
+
+
+def tsv_gen(filename):
     """generator that returns each line from excel-tab separated file
 
        quoted lines are returned as single item list
@@ -10,13 +18,11 @@ def csv_read(filename):
     """
     with open(filename, 'rb') as fid:
         reader = csv.reader(fid, dialect='excel-tab')
-        file_content = [row for row in reader]
-        # for row in reader:
-        #     yield row
-        return file_content
+        for row in reader:
+            yield row
 
 
-def create_cfs(gen):
+def create_cfs(list_object):
     """
     .. py:function:: create_cfs(generator)
 
@@ -38,7 +44,7 @@ def create_cfs(gen):
     ft = []
     dt = []
 
-    for r in gen:
+    for r in list_object:
         n_line = list_item_scrub(r)
         if 'conventions' in n_line:
             conv += list_splitter(n_line, 'conventions')
@@ -75,16 +81,14 @@ def create_variable_data(gen):
         and 'End data' tags
     """
     for row in gen:
-        recordheaders = False
-        recordbody = False
-        if 'Start data' in row:
-            recordheaders = True
-        if recordheaders:
-            varHeaderValues = row
-            varValues = [[] for l in range(0, len(row))]
-            recordheaders = False
-            recordbody = True
-        if recordbody and 'End data' not in row:
+        if 'Start data' in row[0]:
+            varHeaderValues = gen.next()  # var_headers(headerline)
+            varValues = [[] for l in range(0, len(varHeaderValues))]
+            break
+
+    # here we take existing generator's state and append data values
+    for row in gen:
+        if 'End data' not in row:
             [vV.append(r) for vV, r in zip(varValues, row)]
 
     variable_data = {vH: vV for vH, vV in zip(varHeaderValues, varValues)}
