@@ -10,20 +10,20 @@ def csv_read(filename):
     """
     with open(filename, 'rb') as fid:
         reader = csv.reader(fid, dialect='excel-tab')
-
-        for row in reader:
-            yield row
-
-
-def gen_cleanup(gen):
-    try:
-        gen.close()
-    except AttributeError:
-        pass
+        file_content = [row for row in reader]
+        # for row in reader:
+        #     yield row
+        return file_content
 
 
 def create_cfs(gen):
-    """create conventions, FeatureType, snc_DateTime attributes from
+    """
+    .. py:function:: create_cfs(generator)
+
+       Returns conventions, FeaturType, DateTime attributes from
+       the tsv file identified in csv_read function.
+
+       create conventions, FeatureType, snc_DateTime attributes from
        tsv header lines as a 3 x tuple
 
        See example for formatting:, keywords are:
@@ -31,7 +31,7 @@ def create_cfs(gen):
             + conventions
             + FeatureType
             + snc_DateTime
-       
+
         Lines must be quoted in order to be processed with current tooling
     """
     conv = []
@@ -49,8 +49,7 @@ def create_cfs(gen):
 
         # note here we may need to create a checker for the snc obj
         # to deal with cases where more than 1 line has the same kwarg
-
-    gen_cleanup(gen)
+    return (conv, ft, dt)
 
 
 def list_splitter(l, kwarg):
@@ -62,11 +61,12 @@ def list_splitter(l, kwarg):
 
 
 def list_item_scrub(l):
-    """returns csv split line from attributes at top of snc_tsv file
+    """Returns csv split line from attributes at top of snc_tsv file
+
+       note this function is specific to lines that are not tsv
     """
     line = l[0].split(',')
-    temp_line = [i.lower() for i in line]
-    n_line = [j.strip(' ') for j in temp_line]
+    n_line = [i.lower().strip() for i in line]
     return n_line
 
 
@@ -75,25 +75,51 @@ def create_variable_data(gen):
         and 'End data' tags
     """
     for row in gen:
+        recordheaders = False
+        recordbody = False
         if 'Start data' in row:
-            varHeaderValues = gen.next()  # var_headers(headerline)
-            varValues = [[] for l in range(0, len(varHeaderValues))]
-            break
-
-    # here we take existing generator's state and append data values
-    for row in gen:
-        if 'End data' not in row:
+            recordheaders = True
+        if recordheaders:
+            varHeaderValues = row
+            varValues = [[] for l in range(0, len(row))]
+            recordheaders = False
+            recordbody = True
+        if recordbody and 'End data' not in row:
             [vV.append(r) for vV, r in zip(varValues, row)]
+
     variable_data = {vH: vV for vH, vV in zip(varHeaderValues, varValues)}
-    gen_cleanup(gen)
     return variable_data
 
 
 def create_extra_variables(gen):
+    ex_vars = None
+    n=0
     for row in gen:
+        n+=1
         n_row = list_item_scrub(row)
-        if 'snc_extra_variables' in list_item_scrub(n_row):
+        if 'snc_extra_variables' in n_row:
             addr = n_row.index('snc_extra_variables')
             ex_vars = n_row[addr:]
+            exvar_dict = dict()
+            (exvar_dict.setdefault(ex, []) for ex in ex_vars)
+
+        if ex_vars:
+            for ex in ex_vars:
+                if ex in n_row:
+                    print ex
+                    print n_row
+                    temp_item = exvar_dict.get(ex)
+                    ext_item = temp_item.append((row[1], row[2]))
+                    exvar_dict[ex] = ext_item
+                    print exvar_dict[ex]
+
+        # if n < 25:
+        #     print n_row
+
+    return exvar_dict
+
+
+
+
 
 

@@ -10,17 +10,17 @@ from cdf_tools import snc_funcs as sf
 t_file = 'tdata/test_delim_tab.tsv'
 
 
-def gen_setup():
-    """returns generator for testing
-    """
-    temp = sf.csv_read(t_file)
-    for row in temp:
-        yield row
+temp = sf.csv_read(t_file)
+# def gen_setup():
+#     """returns generator for testing
+#     """
+# for row in temp:
+#     yield row
 
 
 def test_reader():
     """test csv_read function"""
-    temp = gen_setup()
+    # temp = gen_setup()
 
     for r in temp:
         assert r is not None
@@ -32,11 +32,12 @@ def test_reader():
 def test_create_var_data():
     """test create_variable_data function
     """
-    temp = gen_setup()
+    # temp = gen_setup()
     test_dict = sf.create_variable_data(temp)
 
     assert type(test_dict) is dict
     assert type(test_dict.keys()) is list
+    print test_dict.keys()[0]
     assert test_dict.keys()[0] == 'fCO2_water_equi_uatm'  
     # assert False
 
@@ -58,7 +59,8 @@ def test_list_splitter():
 
 
 def test_create_cfs():
-    temp = gen_setup()
+    # temp = gen_setup()
+    # print type(temp)
 
     conv, ft, dt = sf.create_cfs(temp)
     
@@ -69,3 +71,10 @@ def test_create_cfs():
     assert type(conv) is list
     for i in [conv, ft, dt]:
         assert i != []
+
+def test_create_exvars():
+    exv_dict = sf.create_extra_variables(temp)
+    assert type(exv_dict) is dict
+    assert exv_dict.get('vessel_name') is not None
+    assert exv_dict.keys() == ['vessel_name', 'dataset_name']
+    assert False

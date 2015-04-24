@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ======================================
-Welcome to netcdf_csv's documentation!
+Welcome to netcdf_csv's documentation
 ======================================
 
 Contents:
@@ -12,8 +12,16 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   test.rst
-   
+   test
+   cdf_tools
+
+cdf_tools module:
+
+.. toctree::
+   :maxdepth: 1
+
+   :doc:`../cdf_tools/index.rst`
+
 Indices and tables
 ==================
 
@@ -21,4 +29,5 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. automodule:: cdf_tools 
+.. automodule:: cdf_tools
+    
