@@ -15,14 +15,23 @@ def csv_read(filename):
             yield row
 
 
+def gen_cleanup(gen):
+    try:
+        gen.close()
+    except AttributeError:
+        pass
+
+
 def create_cfs(gen):
     """create conventions, FeatureType, snc_DateTime attributes from
        tsv header lines as a 3 x tuple
 
        See example for formatting:, keywords are:
+
             + conventions
             + FeatureType
             + snc_DateTime
+       
         Lines must be quoted in order to be processed with current tooling
     """
     conv = []
@@ -41,11 +50,7 @@ def create_cfs(gen):
         # note here we may need to create a checker for the snc obj
         # to deal with cases where more than 1 line has the same kwarg
 
-    try:
-        gen.close()
-    except AttributeError:
-        pass
-    return (conv, ft, dt)
+    gen_cleanup(gen)
 
 
 def list_splitter(l, kwarg):
@@ -71,7 +76,6 @@ def create_variable_data(gen):
     """
     for row in gen:
         if 'Start data' in row:
-            # headerline =
             varHeaderValues = gen.next()  # var_headers(headerline)
             varValues = [[] for l in range(0, len(varHeaderValues))]
             break
@@ -79,12 +83,17 @@ def create_variable_data(gen):
     # here we take existing generator's state and append data values
     for row in gen:
         if 'End data' not in row:
-            # temp_r = row[0].split(',')
             [vV.append(r) for vV, r in zip(varValues, row)]
     variable_data = {vH: vV for vH, vV in zip(varHeaderValues, varValues)}
-
-    try:
-        gen.close()
-    except AttributeError:
-        pass
+    gen_cleanup(gen)
     return variable_data
+
+
+def create_extra_variables(gen):
+    for row in gen:
+        n_row = list_item_scrub(row)
+        if 'snc_extra_variables' in list_item_scrub(n_row):
+            addr = n_row.index('snc_extra_variables')
+            ex_vars = n_row[addr:]
+
+
