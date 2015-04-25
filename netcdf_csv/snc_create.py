@@ -1,7 +1,7 @@
 import snc_funcs as sf
 reload(sf) # kill for production
 
-class snc_create(object):
+class Dataset(object):
     """
     creates object from tsv file set up for conversion to netCDF
 
