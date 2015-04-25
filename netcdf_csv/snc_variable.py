@@ -2,7 +2,7 @@ import snc_funcs as sf
 import tsv_funcs as tf
 
 
-class snc_variable(object):
+class Variable(object):
     """variable object holds snc variables pulled from tsv
     """
 

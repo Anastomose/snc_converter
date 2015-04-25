@@ -6,23 +6,13 @@ reload(sf) # kill for production
 import tsv_funcs as tf
 reload(tf)
 
+import snc_variable as sv
+reload(sv)
+
 
 class Dataset(object):
     """
-    creates dataset object from tsv file set up for conversion to netCDF
-
-    initialization creates the following attributes from the tsv file
-    based on current example formatting:
-
-    (note, this is brittle right now and not very flexible)
-
-    + tsv_file
-    + conventions: list of conventions used
-    + FeatureType: list of features in file
-    + snc_DateTime: datetime convention used
-    + ExtraVars: extra variables
-    + VarHeaders: variable header dict
-    + VarValues: variable name and values dict
+    Creates dataset object from tsv file set up for conversion to netCDF
     """
 
     def __init__(self, file_string = None):
@@ -43,8 +33,13 @@ class Dataset(object):
     def __str__(self):
         pstr = []
         pstr.append(self.filepath)
+        # loop through here to list variable keys in __str__ method
         return '\n'.join(pstr)
 
     def read_header(self):
         # read from header information
         pass
+
+    def createVariable(self, varname, datatype, dimensions=()):
+        var = sv.Variable
+        self.variables[varname] = var

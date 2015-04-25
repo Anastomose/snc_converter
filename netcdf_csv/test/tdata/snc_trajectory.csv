@@ -1,0 +1,24 @@
+this_file,conventions,"SNC0.0, CF1.6", ,,,
+this_file,featureType,trajectory,,,,
+,,,,,,
+# individual variable attributes,,,,,,
+temp,long_name,Temperature of Tropical Ocean,,,,
+temp,history,Uncalibrated data provided by Foo Bar,,,,
+,,,,,,
+cruiseName,snc_feature_id,,,,,
+,,,,,,
+# attributes of multiple variables by column,,,,,,
+this_file,snc_headers,units,missing_value,,,
+,,,,degree_north,degree_east,degree_Celsius
+,,,,-999,-999,-777
+,,,,,,
+Start data,,,,,,
+cruiseName,day,mo,year,lat,lon,temp
+mycrz1,1,5,2011,20.1,140.1,27.3
+mycrz1,2,5,2011,20.2,140.1,27.5
+mycrz1,3,5,2011,20.3,140.1,27.4
+mycrz1,4,5,2011,20.4,140.1,27.3
+mycrz1,5,5,2011,20.5,140.1,27.3
+mycrz1,8,5,2011,20.6,140.2,27.2
+mycrz1,10,5,2011,20.7,140.2,27.5
+End data,,,,,,
