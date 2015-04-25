@@ -1,8 +1,0 @@
-setup.py
-cdf_tools/__init__.py
-cdf_tools/new_func.py
-netcdf_csv.egg-info/PKG-INFO
-netcdf_csv.egg-info/SOURCES.txt
-netcdf_csv.egg-info/dependency_links.txt
-netcdf_csv.egg-info/top_level.txt
-test/test_cdfinit.py

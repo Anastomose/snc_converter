@@ -6,9 +6,18 @@ import sys
 sys.path.append(os.path.abspath(os.curdir))
 
 from netcdf_csv import snc_funcs as sf
-reload(sf)
 
-t_file = 'tdata/test_delim_tab.tsv'
+tdir = os.path.join(os.path.split(__file__)[0], 'tdata')
+
+
+def test_fail():
+    print 'test file func'
+    print tdir
+    print __file__
+    assert False
+    
+
+t_file = os.path.join(tdir, 'test_delim_tab.tsv')
 
 temp = sf.tsv_read(t_file)
 

@@ -1,5 +1,5 @@
 import snc_funcs as sf
-
+reload(sf) # kill for production
 
 class snc_create(object):
     """
