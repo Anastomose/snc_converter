@@ -1,45 +1,20 @@
-import csv
-import re
-
-
-def tsv_read(filename):
-    """creates list object with all tsv file contents"""
-    with open(filename, 'rb') as fid:
-        reader = csv.reader(fid, dialect='excel-tab')
-        file_content = [row for row in reader]
-        return file_content
-
-
-def tsv_gen(filename):
-    """generator that returns each line from excel-tab separated file
-
-       quoted lines are returned as single item list
-       tab-separated values are returned as a list of values per line
-    """
-    with open(filename, 'rb') as fid:
-        reader = csv.reader(fid, dialect='excel-tab')
-        for row in reader:
-            yield row
-
 
 def create_cfs(list_object):
     """
-    .. py:function:: create_cfs(generator)
+    Returns conventions, FeatureType, DateTime  attributes from
+    the tsv file identi fied in csv_read functio n.
 
-       Returns conventions, FeaturType, DateTime attributes from
-       the tsv file identified in csv_read function.
+    create conventions, FeatureType, snc_DateTime  attributes from
+    tsv header lines as  a 3 x tuple
 
-       create conventions, FeatureType, snc_DateTime attributes from
-       tsv header lines as a 3 x tuple
+    See example for formatting:, keywords are:
 
-       See example for formatting:, keywords are:
+         + conventions
+         + FeatureType
+         + snc_DateTime
 
-            + conventions
-            + FeatureType
-            + snc_DateTime
-
-        Lines must be quoted in order to be processed with current tooling
-    """
+     Lines must be quoted in order to be processed with  current tooling
+     """
     conv = []
     ft = []
     dt = []
@@ -56,24 +31,6 @@ def create_cfs(list_object):
         # note here we may need to create a checker for the snc obj
         # to deal with cases where more than 1 line has the same kwarg
     return (conv, ft, dt)
-
-
-def list_splitter(l, kwarg):
-    """returns items in header line following kwarg
-    """
-    if kwarg in l:
-        arg_address = l.index(kwarg) + 1
-        return l[arg_address:]
-
-
-def list_item_scrub(l):
-    """Returns csv split line from attributes at top of snc_tsv file
-
-       note this function is specific to lines that are not tsv
-    """
-    line = l[0].split(',')
-    n_line = [i.lower().strip() for i in line]
-    return n_line
 
 
 def create_variable_data(gen):
@@ -122,6 +79,23 @@ def create_extra_variables(gen):
 
     return exvar_dict
 
+
+def list_splitter(l, kwarg):
+    """Returns items in list that follow location of  kwarg
+    """
+    if kwarg in l:
+        arg_address = l.index(kwarg) + 1
+        return l[arg_address:]
+
+
+def list_item_scrub(l):
+    """Returns list of values from csv-split line scrubbed of spaces and smashed to lower()
+
+       Note this function is specific to lines that are not tsv in test file header
+    """
+    line = l[0].split(',')
+    n_line = [i.lower().strip() for i in line]
+    return n_line
 
 
 
