@@ -1,6 +1,6 @@
 import pytest
 
-from cdf_tools import tsv_prep as ts
+from netcdf_csv import tsv_prep as ts
 
 tfile = r'tdata/test_delim_tab.tsv'
 
@@ -17,5 +17,5 @@ def test_tsvprep():
         #     print row
 
         # if tsv_obj.start == 24:
-            # assert False
+        #    assert False
 

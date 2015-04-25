@@ -5,18 +5,20 @@ import sys
 # add current directory to path so mods can be imported
 sys.path.append(os.path.abspath(os.curdir))
 
-from cdf_tools import snc_funcs as sf
+from netcdf_csv import snc_funcs as sf
+reload(sf)
 
 t_file = 'tdata/test_delim_tab.tsv'
 
-
 temp = sf.tsv_read(t_file)
+
 
 def gen_setup():
     """returns generator for testing
     """
     gen = sf.tsv_gen(t_file)
     return gen
+
 
 def test_reader():
     """test csv_read function"""
