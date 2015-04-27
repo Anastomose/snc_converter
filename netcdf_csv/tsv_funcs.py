@@ -3,7 +3,7 @@ import re
 
 
 def tsv_read(filename):
-    """creates list object with all tsv file contents"""
+    """Creates list of lists with all tsv file contents"""
     with open(filename, 'rb') as fid:
         reader = csv.reader(fid, dialect='excel-tab')
         file_content = [row for row in reader]

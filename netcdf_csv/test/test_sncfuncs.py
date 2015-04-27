@@ -15,10 +15,9 @@ def test_fail():
     print 'test file func'
     print tdir
     print __file__
-    
 
-t_file = os.path.join(tdir, 'test_delim_tab.tsv')
 
+t_file = os.path.join(tdir, 'snc_trajectory.tsv')
 temp = tf.tsv_read(t_file)
 
 
@@ -49,7 +48,7 @@ def test_create_var_data():
     assert type(t_dict) is dict
     assert type(t_dict.keys()) is list
     print t_dict.keys()[0]
-    assert t_dict.keys()[0] == 'fCO2_water_equi_uatm'
+    assert t_dict.keys()[0] == 'cruiseName'
     # assert False
 
 
@@ -70,12 +69,13 @@ def test_list_splitter():
 
 
 def test_create_cfs():
+    assert type(temp) is list
     conv, ft, dt = sf.create_cfs(temp)
-    # print conv
-    # print ft
-    # print dt
+    print conv
+    print ft
+    print dt
     assert type(conv) is list
-    for i in [conv, ft, dt]:
+    for i in [conv, ft]:
         assert i != []
     # assert False
 

@@ -6,7 +6,7 @@ class Variable(object):
     """variable object holds snc variables pulled from tsv
     """
 
-    def __init__(self, tsv_file):
+    def __init__(self, name, datatype, dimensions=()):
 
         self.extra_variables = None
         self.variable = None

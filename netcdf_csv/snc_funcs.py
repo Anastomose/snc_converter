@@ -2,25 +2,20 @@
 def create_cfs(list_object):
     """
     Returns conventions, FeatureType, DateTime  attributes from
-    the tsv file identi fied in csv_read functio n.
-
-    create conventions, FeatureType, snc_DateTime  attributes from
-    tsv header lines as  a 3 x tuple
+    list_object parsed by tsv_funcs.tsv_read()
 
     See example for formatting:, keywords are:
 
          + conventions
          + FeatureType
          + snc_DateTime
-
-     Lines must be quoted in order to be processed with  current tooling
-     """
+    """
     conv = []
     ft = []
     dt = []
 
     for r in list_object:
-        n_line = list_item_scrub(r)
+        n_line = list_item_scrub(r)  # quoted line needs to be scrubbed
         if 'conventions' in n_line:
             conv += list_splitter(n_line, 'conventions')
         elif 'featuretype' in n_line:
@@ -34,7 +29,7 @@ def create_cfs(list_object):
 
 
 def create_variable_data(gen):
-    """creates variable data dict from csv generator between 'Start data'
+    """Creates variable data dict from csv generator between 'Start data'
         and 'End data' tags
     """
     for row in gen:
@@ -93,8 +88,8 @@ def list_item_scrub(l):
 
        Note this function is specific to lines that are not tsv in test file header
     """
-    line = l[0].split(',')
-    n_line = [i.lower().strip() for i in line]
+    # line = l[0].split(',')
+    n_line = [i.lower().strip() for i in l]
     return n_line
 
 
