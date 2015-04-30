@@ -84,7 +84,7 @@ def list_splitter(l, kwarg):
 
 
 def list_item_scrub(l):
-    """Returns list of values from csv-split line scrubbed of spaces and smashed to lower()
+    """Returns list of values from tsv-split line scrubbed of spaces and smashed to lower()
 
        Note this function is specific to lines that are not tsv in test file header
     """

@@ -20,3 +20,9 @@ def tsv_gen(filename):
         reader = csv.reader(fid, dialect='excel-tab')
         for row in reader:
             yield row
+
+def tsv_tabs(tsv_line):
+    """Returns True on blank lines in tsv file"""
+    alpha = re.search('(^\\t)*\r\n', tsv_line)
+    if alpha:
+        return True

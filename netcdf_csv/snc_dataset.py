@@ -33,13 +33,31 @@ class Dataset(object):
     def __str__(self):
         pstr = []
         pstr.append(self.filepath)
+        pstr + self.read_header()
+        pstr.append('Variables:')
+        pstr.append('\n'.join(self.read_variables()))
         # loop through here to list variable keys in __str__ method
         return '\n'.join(pstr)
 
     def read_header(self):
-        # read from header information
-        pass
+        """Returns parsed header above 'start data' tag in file"""
+        read_hdr = tf.tsv_gen(self.tsv_file)
+        rh_output = []
+        for row in read_hdr:
+            rl = sf.list_item_scrub(row)
+            if 'start data' not in rl:
+                rh_output.append(rl)
+        pretty_rho = [' '.join(r) for r in rh_output]
+        return pretty_rho
+
+    def read_variables(self):
+        """Returns list of variables"""
+        read_var = tf.tsv_gen(self.tsv_file)
+        for row in read_var:
+            if 'start data' in sf.list_item_scrub(row):
+                vars_list = read_var.next()
+        return vars_list
 
     def createVariable(self, varname, datatype, dimensions=()):
-        var = sv.Variable
+        var = sv.Variable(name, datatype)
         self.variables[varname] = var
