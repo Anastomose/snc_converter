@@ -29,8 +29,9 @@ def create_cfs(list_object):
 
 
 def create_variable_data(gen):
-    """Creates variable data dict from csv generator between 'Start data'
-        and 'End data' tags
+    """Returns variable dictionary from tsvgen
+
+       Creates variable data dict from tsv generator between 'Start data' and 'End data' tags.
     """
     for row in gen:
         if 'Start data' in row[0]:
