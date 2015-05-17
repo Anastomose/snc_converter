@@ -39,25 +39,25 @@ def test_reader():
     # assert False
 
 
-def test_create_var_data():
-    """test create_variable_data function
-    """
-    temp_gen = gen_setup()
-    t_dict = sf.create_variable_data(temp_gen)
+# def test_create_var_data():
+#     """test create_variable_data function
+#     """
+#     temp_gen = gen_setup()
+#     t_dict = sf.create_variable_data(temp_gen)
 
-    assert type(t_dict) is dict
-    assert type(t_dict.keys()) is list
-    print t_dict.keys()[0]
-    assert t_dict.keys()[0] == 'cruiseName'
-    # assert False
+#     assert type(t_dict) is dict
+#     assert type(t_dict.keys()) is list
+#     print t_dict.keys()[0]
+#     assert t_dict.keys()[0] == 'cruiseName'
+#     # assert False
 
 
 def test_list_splitter():
     """test list_splitter function for populating attributes
     """
     templist = [["conventions, a, b, c"], ["FeatureType, 1,2,3"]]
-    alpha_list = sf.list_splitter(templist[0][0].split(','), 'conventions')
-    beta_list = sf.list_splitter(templist[1][0].split(','), 'FeatureType')
+    alpha_list = sf.list_split(templist[0][0].split(','), 'conventions')
+    beta_list = sf.list_split(templist[1][0].split(','), 'FeatureType')
 
     print templist[0], alpha_list
     print templist[1], beta_list
@@ -68,16 +68,16 @@ def test_list_splitter():
     # assert False
 
 
-def test_create_cfs():
-    assert type(temp) is list
-    conv, ft, dt = sf.create_cfs(temp)
-    print conv
-    print ft
-    print dt
-    assert type(conv) is list
-    for i in [conv, ft]:
-        assert i != []
-    # assert False
+# def test_create_cfs():
+#     assert type(temp) is list
+#     conv, ft, dt = sf.create_cfs(temp)
+#     print conv
+#     print ft
+#     print dt
+#     assert type(conv) is list
+#     for i in [conv, ft]:
+#         assert i != []
+#     # assert False
 
 # def test_create_exvars():
 #     exv_dict = sf.create_extra_variables(temp)

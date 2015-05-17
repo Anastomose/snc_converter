@@ -1,83 +1,109 @@
 import os
-import csv
-
 import snc_funcs as sf
-reload(sf) # kill for production
-
 import tsv_funcs as tf
-reload(tf)
-
 import snc_variable as sv
+
+
+reload(sf)  # kill for production
+reload(tf)
 reload(sv)
 
 
 class Dataset(object):
     """
-    Creates dataset object from tsv file set up for conversion to netCDF
+    Dataset object imitating netCDF Dataset
     """
+
+    """class attributes go here"""
 
     def __init__(self, file_string=None):
         # eventually want to update with argv
-        self.tsv_file = file_string
         self.snc_DateTime = None
-        self.attributes = {}
-        self.variables = {}  # sf.create_variable_data(file_string)
-
+        self.globals = {}  # globals go here
+        self.attributes = {}  # multiple variables by column
+        self.variables = {}  # collection of variable objects
         self.filepath = os.path.abspath(file_string)
         self.dimensions = {}
 
-        # use createVariable to update variables
-        # try:
-        tsv_gen_object = tf.tsv_gen(file_string)
-        variableDict = sf.create_variable_data(tsv_gen_object)
-        variabletypes = [type(variableDict.get(t)[0]) for t
-                         in variableDict.keys()]
-
-        for k, t in zip(variableDict.keys(), variabletypes):
-            self.createVariable(k, t)
-            # print '{} variable of type {} created'.format(k, t)
-        # except Exception:
-        #     print 'An exception occurred trying to autoload variables'
-
     def __str__(self):
         """Prints Dataset attributes"""
-        rtsv = tf.tsv_blocks(self.tsv_file)
-        global_raw = rtsv.GlobalBlock
-        ivars_attr_raw = rtsv.VarsAttrBlock
-        feature_id_raw = rtsv.FeatIdBlock
-        vars_column_raw = rtsv.VarsbyColBlock
+        """access self.variables attributes and loop through keys to print"""
+        tempkeys = [self.filepath]
+        # print self.variables.keys()
+        for k in self.variables.keys():  # default is to loop through keys
+            print k
+            tempkeys.append(k)
+        return '\n'.join(tempkeys)
 
-        pstr = []
-        pstr.append(self.filepath)
-        pstr.append('Globals:')
-        pstr.append(global_raw.strip('\r\n'))
-        pstr.append('Individual Variable Attributes:')
-        pstr.append(ivars_attr_raw.strip('\r\n'))
-        pstr.append('Feature IDs:')
-        pstr.append(feature_id_raw.strip('\r\n'))
-        pstr.append('Variables by Column Attributes:')
-        pstr.append(vars_column_raw.strip('\r\n'))
-        return '\n'.join(pstr)
+    def createGlobal(self, gvarname, *args, **kwargs):
+        """Sets global variable attributes
+           createGlobal(global variable, attribute, **kwargs)
+        """
+        self.globals[gvarname] = args[0]
 
-    # def read_header(self):
-    #     """Returns parsed header above 'start data' tag in file"""
-    #     read_hdr = tf.tsv_gen(self.tsv_file)
-    #     rh_output = []
-    #     for row in read_hdr:
-    #         rl = sf.list_item_scrub(row)
-    #         if 'start data' not in rl:
-    #             rh_output.append(rl)
-    #     pretty_rho = [' '.join(r) for r in rh_output]
-    #     return pretty_rho
-
-    def read_variables(self):
-        """Returns list of variables"""
-        read_var = tf.tsv_gen(self.tsv_file)
-        for row in read_var:
-            if 'start data' in sf.list_item_scrub(row):
-                vars_list = read_var.next()
-        return vars_list
-
-    def createVariable(self, varname, datatype, dimensions=()):
-        var = sv.Variable(varname, datatype)
+    def createVariable(self, varname, *args, **kwargs):
+        var = sv.Variable(varname, *args, **kwargs)
         self.variables[varname] = var
+
+    def setVarAttribute(self, var, *args, **kwargs):
+        """Sets variable attributes
+           setVarAttribute(var, attribute, description)
+           """
+        v = self.variables.get(var)
+        v.attributes[kwargs['attribute']] = kwargs['description']
+
+    def setVarData(self, varname, *args, **kwargs):
+        """Set variable data array
+        setVarData(varname, data array, **kwargs)
+        """
+        v = self.variables.get(varname)
+        v.data_array.extend(args[0])
+
+    @classmethod
+    def readFromTSV(cls, file_string):
+        """Creates Dataset class from TSV file"""
+        dataset = cls(file_string)
+
+        # print file_string
+
+        tsv_lines = tf.tsv_read(file_string)
+        tsv_scrub = [sf.list_item_scrub(r) for r in tsv_lines]
+        """
+        use this_file tag to extract global variables
+        variable data will follow the 'Start Data' tag
+        """
+
+        """find start and end of data"""
+        sd = None
+        ed = None
+        for i, row in enumerate(tsv_scrub):
+            if 'start data' in row:
+                sd = i
+            elif 'end data' in row:
+                ed = i
+        tsv_variables = tsv_scrub[sd+1]
+        [dataset.createVariable(v) for v in tsv_variables]
+
+        """set global and variable attributes from file"""
+        for row in tsv_scrub:
+            print row
+            if 'this_file' in row:
+                print 'found global'
+                dataset.createGlobal(row[1], sf.list_split(row, row[1]))
+
+            # set variable attributes and descriptions
+            elif r[0] in tsv_variables:
+                var = r[0]
+                vd = {'attribute': r[1],
+                      'description': r[2]}
+                dataset.setVarAttribute(var, vd)
+
+        """create variable data arrays"""
+        tsv_dataarrays = [[] for n in tsv_variables]
+        for l in tsv_scrub[sd+2:ed]:
+            [vV.append(i) for vV, i in zip(tsv_dataarrays, l)]
+
+        variable_datasets = zip(tsv_variables, tsv_dataarrays)
+        [dataset.setVarData(k, v) for k, v in variable_datasets]
+
+        return dataset
