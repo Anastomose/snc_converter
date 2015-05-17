@@ -13,7 +13,7 @@ def test_snc_dataset():
     assert tempclass is not None
 
 
-def test_sncd_str():
+def test_snc_str():
     tempclass = sd.Dataset.readFromTSV(t_file)
 
     strvar = str(tempclass)
@@ -21,3 +21,28 @@ def test_sncd_str():
     assert re.search('snc_trajectory.tsv', strvar)
     assert re.search('cruisename', strvar)
     # assert False
+
+def test_snc_create():
+    tc = sd.Dataset()
+    tc.createGlobal('new_global', ['text'])
+    tc.createVariable('new_var')
+    tc.setVarAttribute('new_var', attribute='attribute1',
+                       description='description text')
+    v = tc.variables.get('new_var')
+
+    assert tc.globals != {}
+    assert 'text' in tc.globals.get('new_global')
+    assert tc.variables != {}
+    assert v.attributes.get('attribute1') is 'description text'
+
+def test_snc_setData():
+    tc = sd.Dataset.readFromTSV(t_file)
+    v_temp = tc.variables.get('temp')
+    vd = v_temp.data_array
+    # print vd
+
+    assert type(vd) is list
+
+    try: float(vd[0])
+    except ValueError: assert False 
+    assert False
