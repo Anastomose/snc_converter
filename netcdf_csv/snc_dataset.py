@@ -37,28 +37,34 @@ class Dataset(object):
 
     def createGlobal(self, gvarname, *args, **kwargs):
         """Sets global variable attributes
-           createGlobal(global variable, attribute, **kwargs)
+
+           :gvarname: variable that applies to the whole Dataset
+           :args: values that follow gvars in the TSV
         """
         attrs = [i for i in args[0] if i != '']
         self.globals[gvarname] = attrs
 
     def createVariable(self, varname, *args, **kwargs):
         """Creates dataset variable
-           createVariable(variable name, datatype, dimensions, **kwargs)
-           """
+           
+           :varname: variable name
+
+           *kwargs*
+
+           :datatype: type of data for each variable
+           :dimensions: dimension of variable
+        """
         var = sv.Variable(varname, *args, **kwargs)
         self.variables[varname] = var
 
     def setVarAttribute(self, var, *args, **kwargs):
-        """Sets variable attributes
-           setVarAttribute(var, attribute=attribute, description=description)
-           """
+        """Sets variable attributes        
+        """
         v = self.variables.get(var)
         v.attributes[kwargs['attribute']] = kwargs['description']
 
     def setVarData(self, varname, *args, **kwargs):
         """Set variable data array
-        setVarData(varname, data array, **kwargs)
         """
         v = self.variables.get(varname)
         v.data_array.extend(args[0])
@@ -71,6 +77,7 @@ class Dataset(object):
         tsv_lines = tf.tsv_read(file_string)
         tsv_scrub = [sf.list_item_scrub(r) for r in tsv_lines]
         # print tsv_scrub
+
         """
         use this_file tag to extract global variables
         variable data will follow the 'Start Data' tag

@@ -12,15 +12,15 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   test
-   cdf_tools
+.. automodule:: netcdf_csv
+    
+    .. autoclass:: netcdf_csv.snc_dataset.Dataset
+        :members:
 
-cdf_tools module:
+    .. autoclass:: netcdf_csv.snc_variable.Variable
+        :members:
 
-.. toctree::
-   :maxdepth: 1
-
-   :doc:`../cdf_tools/index.rst`
+    
 
 Indices and tables
 ==================
@@ -28,6 +28,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
-.. automodule:: cdf_tools
-    
+   
