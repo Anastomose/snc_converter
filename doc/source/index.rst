@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ======================================
-Welcome to netcdf_csv's documentation
+Welcome to netcdf_csv's Documentation
 ======================================
 
 Contents:
@@ -20,7 +20,7 @@ Contents:
     .. autoclass:: netcdf_csv.snc_variable.Variable
         :members:
 
-    
+
 
 Indices and tables
 ==================
