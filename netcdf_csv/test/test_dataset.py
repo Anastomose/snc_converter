@@ -1,11 +1,12 @@
 import pytest
 import os
-import sys
 import re
 
 from netcdf_csv import snc_dataset as sd
 
-t_file = os.path.join(os.path.split(__file__)[0], 'tdata', 'snc_trajectory.tsv')
+t_file = os.path.join(os.path.split(__file__)[0],
+                      'tdata', 'snc_trajectory.tsv'
+                      )
 
 
 def test_snc_dataset():
@@ -22,6 +23,7 @@ def test_snc_str():
     assert re.search('cruisename', strvar)
     # assert False
 
+
 def test_snc_create():
     tc = sd.Dataset()
     tc.createGlobal('new_global', ['text'])
@@ -35,6 +37,7 @@ def test_snc_create():
     assert tc.variables != {}
     assert v.attributes.get('attribute1') is 'description text'
 
+
 def test_snc_setData():
     tc = sd.Dataset.readFromTSV(t_file)
     v_temp = tc.variables.get('temp')
@@ -42,7 +45,15 @@ def test_snc_setData():
     # print vd
 
     assert type(vd) is list
+    for i in vd:
+        assert type(i) is float
 
-    try: float(vd[0])
-    except ValueError: assert False 
-    assert False
+
+def test_snc_dim():
+    tc = sd.Dataset.readFromTSV(t_file)
+    tc.addVarDimension('temp')
+    d = tc.dimensions.get('temp')
+
+    assert tc.dimensions is not {}
+    assert d.variable is 'temp'
+    assert d.dimension is 7 # snc_trajectory data length

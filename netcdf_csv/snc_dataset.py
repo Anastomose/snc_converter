@@ -4,6 +4,7 @@ import ast
 import snc_funcs as sf
 import tsv_funcs as tf
 import snc_variable as sv
+import snc_dimension as sdm
 
 
 reload(sf)  # kill for production
@@ -16,7 +17,7 @@ class Dataset(object):
     Dataset object imitating netCDF Dataset
 
     *Class Attributes*
-    
+
     :attributes: Dictionary of dataset attributes
     :dimensions: Dictionary of dataset variable dimensions
     :filepath: The file path used to instantiate the current dataset
@@ -67,6 +68,7 @@ class Dataset(object):
         var = sv.Variable(varname, *args, **kwargs)
         self.variables[varname] = var
 
+
     def setVarAttribute(self, var, *args, **kwargs):
         """Sets variable attributes
         """
@@ -78,6 +80,20 @@ class Dataset(object):
         """
         v = self.variables.get(varname)
         v.data_array.extend(args[0])
+
+    def addVarDimension(self, varname):
+        """Sets variable dimension in dataset
+
+           Requires variable already exists and variable name is
+           correctly passed to function.
+        """
+        v = self.variables.get(varname)
+        if v:
+            d = len(v.data_array)
+            vd = sdm.Dimension(varname, d)
+            self.dimensions[varname] = vd
+        else:
+            print 'Error: Bad key passed'
 
     @classmethod
     def readFromTSV(cls, file_string, globaltag="this_file"):
@@ -114,19 +130,21 @@ class Dataset(object):
         """set global and variable attributes from file"""
         for i, row in enumerate(tsv_scrub):
             if globaltag in row:
-                print 'Found global {}'.format(row[1])
+                print 'Found global attribute "{}"'.format(row[1])
                 dataset.createGlobal(row[1], sf.list_split(row, row[1]))
 
             # set variable attributes and descriptions
             elif row[0] in tsv_variables and i < sd:
-                print 'Found variable {} attribute {}'.format(row[0], row[1])
+                print 'Found variable "{}" attribute: {}'.format(row[0],
+                                                                 row[1])
                 dataset.setVarAttribute(row[0], attribute=row[1],
                                         description=row[2])
 
         """create variable data arrays and update dataset"""
         tsv_dataarrays = [[] for n in tsv_variables]
         for l in tsv_scrub[sd+2:ed]:
-            [vV.append(i) for vV, i in zip(tsv_dataarrays, l)]
+            [tda.append(sf.list_detect_type(i)) for
+             tda, i in zip(tsv_dataarrays, l)]
 
         variable_datasets = zip(tsv_variables, tsv_dataarrays)
         [dataset.setVarData(k, v) for k, v in variable_datasets]

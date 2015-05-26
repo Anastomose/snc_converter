@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; netcdf_csv 0.0.1 documentation</title>
+  <title>Variables Class &mdash; netcdf_csv 0.0.1 documentation</title>
   
 
   
@@ -30,7 +30,9 @@
   
 
   
-    <link rel="top" title="netcdf_csv 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="netcdf_csv 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="Resources" href="Resources.html"/>
+        <link rel="prev" title="Dataset Class" href="Datasets.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -49,7 +51,7 @@
         
         
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -61,9 +63,9 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Datasets.html">Dataset Class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables Class</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Variables Class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
 </ul>
 
@@ -89,8 +91,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li></li>
+    <li>Variables Class</li>
       <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/Variables.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -98,22 +102,53 @@
 </div>
           <div role="main" class="document">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="variables-class">
+<h1>Variables Class<a class="headerlink" href="#variables-class" title="Permalink to this headline">¶</a></h1>
+<p>The variable class is the basic object used to store each individual variable that make up a dataset</p>
+<p>Class Attributes and Methods:</p>
+<dl class="class">
+<dt id="netcdf_csv.snc_variable.Variable">
+<em class="property">class </em><code class="descclassname">netcdf_csv.snc_variable.</code><code class="descname">Variable</code><span class="sig-paren">(</span><em>name</em>, <em>datatype=None</em>, <em>dimensions=()</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_variable.Variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class holds a variable pulled from a snc dataset</p>
+<p><em>Class Attributes</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Attributes:</th><td class="field-body">A dictionary of the variable attributes. For example
+the variable &#8216;temperature&#8217; may include an attribute &#8216;long name&#8217; with
+a value of &#8216;Temperature in degrees celsius&#8217;.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Datatype:</th><td class="field-body">Type of data stored.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Data_array:</th><td class="field-body">A list that holds the variable data.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Dimensions:</th><td class="field-body">The dimensions of the data array. For one-dimensional
+data arrays this will be the length of the list.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Extra_variables:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">Currently not used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Name:</th><td class="field-body">Name of the variable.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
-  
-  <div id="search-results">
-  
-  </div>
+</div>
+
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Resources.html" class="btn btn-neutral float-right" title="Resources">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Datasets.html" class="btn btn-neutral" title="Dataset Class"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -150,7 +185,6 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/searchtools.js"></script>
 
   
 
@@ -166,14 +200,7 @@
           SphinxRtdTheme.StickyNav.enable();
       });
   </script>
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

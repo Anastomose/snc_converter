@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="netcdf_csv 0.0.1 documentation" href="#"/> 
+    <link rel="top" title="netcdf_csv 0.0.1 documentation" href="#"/>
+        <link rel="next" title="Dataset Class" href="Datasets.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -61,7 +62,10 @@
         
           
           
-              <ul class="simple">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Datasets.html">Dataset Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
 </ul>
 
           
@@ -99,85 +103,22 @@
             
   <div class="section" id="welcome-to-netcdf-csv-s-documentation">
 <h1>Welcome to netcdf_csv&#8217;s Documentation<a class="headerlink" href="#welcome-to-netcdf-csv-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+<p>Table of Contents:</p>
 <div class="toctree-wrapper compound">
-<ul class="simple">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Datasets.html">Dataset Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Variables.html">Variables Class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Resources.html">Resources</a></li>
 </ul>
 </div>
-<span class="target" id="module-netcdf_csv"></span><p>Welcome to the cdf_tools conversion module. This is the bleeding edge of development for converting csv spreadsheet files into netcdf files using the netCDF4 python package.</p>
-<dl class="class">
-<dt id="netcdf_csv.snc_dataset.Dataset">
-<em class="property">class </em><code class="descclassname">netcdf_csv.snc_dataset.</code><code class="descname">Dataset</code><span class="sig-paren">(</span><em>file_string=None</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dataset object imitating netCDF Dataset</p>
-<dl class="method">
-<dt id="netcdf_csv.snc_dataset.Dataset.createGlobal">
-<code class="descname">createGlobal</code><span class="sig-paren">(</span><em>gvarname</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset.createGlobal" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets global variable attributes</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Gvarname:</th><td class="field-body">variable that applies to the whole Dataset</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Args:</th><td class="field-body">values that follow gvars in the TSV</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="netcdf_csv.snc_dataset.Dataset.createVariable">
-<code class="descname">createVariable</code><span class="sig-paren">(</span><em>varname</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset.createVariable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates dataset variable</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Varname:</th><td class="field-body">variable name</td>
-</tr>
-</tbody>
-</table>
-<p><em>kwargs</em></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Datatype:</th><td class="field-body">type of data for each variable</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Dimensions:</th><td class="field-body">dimension of variable</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="classmethod">
-<dt id="netcdf_csv.snc_dataset.Dataset.readFromTSV">
-<em class="property">classmethod </em><code class="descname">readFromTSV</code><span class="sig-paren">(</span><em>file_string</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset.readFromTSV" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates Dataset class from TSV file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="netcdf_csv.snc_dataset.Dataset.setVarAttribute">
-<code class="descname">setVarAttribute</code><span class="sig-paren">(</span><em>var</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset.setVarAttribute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets variable attributes</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="netcdf_csv.snc_dataset.Dataset.setVarData">
-<code class="descname">setVarData</code><span class="sig-paren">(</span><em>varname</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_dataset.Dataset.setVarData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set variable data array</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="netcdf_csv.snc_variable.Variable">
-<em class="property">class </em><code class="descclassname">netcdf_csv.snc_variable.</code><code class="descname">Variable</code><span class="sig-paren">(</span><em>name</em>, <em>datatype=None</em>, <em>dimensions=()</em><span class="sig-paren">)</span><a class="headerlink" href="#netcdf_csv.snc_variable.Variable" title="Permalink to this definition">¶</a></dt>
-<dd><p>variable object holds snc variables pulled from tsv</p>
-</dd></dl>
-
+<div class="section" id="readme">
+<span id="start-of-readme"></span><h2>Readme<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
+<p>netcdf_csv is being developed as a tool to move data between the netcdf format that is preferred by for data storage and archiving and the more user-friendly tab-separated value that allows users to examine data using spreadsheets.</p>
+<p>Climate research data is primarily stored and handled on the data management side using the netcdf format because it provides good metadata as well as a standard format to store and handle data in.</p>
+<p>However, this format is not particularly user friendly to people performing climate analysis who primarily want to look at the data as a data series that can be dumped into a spreadsheet for plotting and other analysis. This usually means converting the netcdf data to a CSV or other character delimited format that can be read in Excel.</p>
+<p>This project consists of building a module that will provide a set of tools that can convert data back and forth between netcdf and CSV formats while preserving or adding appropriate metadata.</p>
 <div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span>Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span>Module Index</span></a></li>
@@ -185,10 +126,18 @@
 </ul>
 </div>
 </div>
+</div>
 
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Datasets.html" class="btn btn-neutral float-right" title="Dataset Class">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
   
 
   <hr/>
