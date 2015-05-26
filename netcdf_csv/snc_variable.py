@@ -1,5 +1,17 @@
 class Variable(object):
-    """variable object holds snc variables pulled from tsv
+    """Class holds one snc variable pulled from tsv
+
+       *Class Attributes*
+
+       :attributes: A dictionary of the variable attributes. For example
+        the variable 'temperature' may include an attribute 'long name' with
+         a value of 'Temperature in degrees celsius'.
+       :datatype: Type of data stored.
+       :data_array: A list that holds the variable data.
+       :dimensions: The dimensions of the data array. For one-dimensional
+         data arrays this will be the length of the list.
+       :extra_variables: Currently not used.
+       :name: Name of the variable.
     """
 
     def __init__(self, name, datatype = None, dimensions=()):

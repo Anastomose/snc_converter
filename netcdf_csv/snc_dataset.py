@@ -14,6 +14,16 @@ reload(sv)
 class Dataset(object):
     """
     Dataset object imitating netCDF Dataset
+
+    *Class Attributes*
+    
+    :attributes: Dictionary of dataset attributes
+    :dimensions: Dictionary of dataset variable dimensions
+    :filepath: The file path used to instantiate the current dataset
+    :globals: Attributes that apply to the entire dataset (e.g. conventions)
+    :snc_DateTime: Not used
+    :variables: Dictionary of dataset variable objects
+
     """
 
     """class attributes go here"""
@@ -46,7 +56,7 @@ class Dataset(object):
 
     def createVariable(self, varname, *args, **kwargs):
         """Creates dataset variable
-           
+
            :varname: variable name
 
            *kwargs*
@@ -58,7 +68,7 @@ class Dataset(object):
         self.variables[varname] = var
 
     def setVarAttribute(self, var, *args, **kwargs):
-        """Sets variable attributes        
+        """Sets variable attributes
         """
         v = self.variables.get(var)
         v.attributes[kwargs['attribute']] = kwargs['description']
@@ -70,8 +80,14 @@ class Dataset(object):
         v.data_array.extend(args[0])
 
     @classmethod
-    def readFromTSV(cls, file_string):
-        """Creates Dataset class from TSV file"""
+    def readFromTSV(cls, file_string, globaltag="this_file"):
+        """Creates Dataset class from TSV file
+
+        :filestring: File string of the TSV file used to create the new
+         class instance
+        :globaltag: Tag used to identify attributers that apply to the
+         entire TSV file. Default is *this_file*"""
+
         dataset = cls(file_string)
 
         tsv_lines = tf.tsv_read(file_string)
@@ -97,15 +113,15 @@ class Dataset(object):
 
         """set global and variable attributes from file"""
         for i, row in enumerate(tsv_scrub):
-            if 'this_file' in row:
+            if globaltag in row:
                 print 'Found global {}'.format(row[1])
                 dataset.createGlobal(row[1], sf.list_split(row, row[1]))
 
             # set variable attributes and descriptions
             elif row[0] in tsv_variables and i < sd:
                 print 'Found variable {} attribute {}'.format(row[0], row[1])
-                dataset.setVarAttribute(row[0], attribute = row[1], 
-                                        description = row[2])
+                dataset.setVarAttribute(row[0], attribute=row[1],
+                                        description=row[2])
 
         """create variable data arrays and update dataset"""
         tsv_dataarrays = [[] for n in tsv_variables]
