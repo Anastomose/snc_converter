@@ -18,6 +18,7 @@ def list_item_scrub(l):
     n_line = [i.lower().strip(' ') for i in l]
     return n_line
 
+
 def list_detect_type(v):
     """Returns literal eval of list object"""
     try:
