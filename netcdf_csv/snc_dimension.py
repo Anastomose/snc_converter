@@ -4,4 +4,4 @@ class Dimension(object):
 
     def __init__(self, varname, dimension):
         self.variable = varname
-        self.dimension = dimension
+        self.dimension = (dimension)

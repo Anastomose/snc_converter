@@ -76,7 +76,9 @@ class Dataset(object):
         v.attributes[kwargs['attribute']] = kwargs['description']
 
     def setVarData(self, varname, *args, **kwargs):
-        """Set variable data array
+        """Sets variable data array
+
+           setVarData(varname, data_array, **kwargs)
         """
         v = self.variables.get(varname)
         v.data_array.extend(args[0])
@@ -135,8 +137,7 @@ class Dataset(object):
 
             # set variable attributes and descriptions
             elif row[0] in tsv_variables and i < sd:
-                print 'Found variable "{}" attribute: {}'.format(row[0],
-                                                                 row[1])
+                print 'Found variable "{}" attribute: {}'.format(row[0], row[1])
                 dataset.setVarAttribute(row[0], attribute=row[1],
                                         description=row[2])
 
