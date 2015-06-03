@@ -57,3 +57,5 @@ def test_snc_dim():
     assert tc.dimensions is not {}
     assert d.variable is 'temp'
     assert d.dimension is 7 # snc_trajectory data length
+
+

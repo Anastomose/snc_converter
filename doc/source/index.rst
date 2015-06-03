@@ -31,7 +31,7 @@ netcdf_csv is a python module that will allow for quick conversion of a formatte
 Current Status
 ----------------
 
-netcdf_csv can now instantiate a new dataset from a formatted TSV file including variables, dimensions, and global attributes. Fill values are not currently loading into the dataset. Dimensions must be assigned by identifiying variables with dimensions.
+netcdf_csv can now instantiate a new dataset from a formatted TSV file including variables, dimensions, and global attributes. Fill values are not currently loading into the dataset. Variable dimensions must be assigned by identifiying variable and using the Dataset.addVarDimension(variable) method.
 
 .. _exd_section:
 

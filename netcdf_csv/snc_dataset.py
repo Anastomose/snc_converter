@@ -46,6 +46,7 @@ class Dataset(object):
             tempkeys.append(k)
         return '\n'.join(tempkeys)
 
+   
     def createGlobal(self, gvarname, *args, **kwargs):
         """Sets global variable attributes
 
@@ -126,8 +127,11 @@ class Dataset(object):
             elif 'end data' in row:
                 ed = i
         tsv_variables = tsv_scrub[sd+1]
+        tsv_datatypes = [type(v) for v in tsv_scrub[sd+2]]
+
         # print tsv_variables
-        [dataset.createVariable(v) for v in tsv_variables]
+        [dataset.createVariable(v, datatype=t) for v, t in zip(tsv_variables,
+                                                               tsv_datatypes)]
 
         """set global and variable attributes from file"""
         for i, row in enumerate(tsv_scrub):
