@@ -1,5 +1,4 @@
 import os
-import ast
 
 import snc_funcs as sf
 import tsv_funcs as tf
@@ -46,7 +45,6 @@ class Dataset(object):
             tempkeys.append(k)
         return '\n'.join(tempkeys)
 
-   
     def createGlobal(self, gvarname, *args, **kwargs):
         """Sets global variable attributes
 
@@ -68,7 +66,6 @@ class Dataset(object):
         """
         var = sv.Variable(varname, *args, **kwargs)
         self.variables[varname] = var
-
 
     def setVarAttribute(self, var, *args, **kwargs):
         """Sets variable attributes
