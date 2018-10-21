@@ -3,3 +3,7 @@
 .gitignore~
 *.pyc
 *.*~
+
+
+doctrees/
+.buildinfo
