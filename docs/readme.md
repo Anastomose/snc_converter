@@ -1,3 +1,13 @@
-## netCDF to CSV Readme
+Table of Contents:
+-------------------
+
+.. toctree::
+    :maxdepth: 2
+
+    Datasets
+    Variables
+    Resources
+
+# netCDF to CSV Readme
 ----
-This module is being developed to allow for quick and reliable translation of scientific data from the netCDF format to a character delimited format, and to convert character delimited files into netCDF format for data management purposes.
+The original concept for this module was to build a compact set of tools that will translate between netCDF format to a character delimited format such as a CSV and back again.
