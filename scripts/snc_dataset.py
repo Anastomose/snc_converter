@@ -6,11 +6,6 @@ import snc_variable as sv
 import snc_dimension as sdm
 
 
-reload(sf)  # kill for production
-reload(tf)
-reload(sv)
-
-
 class Dataset(object):
     """
     Dataset object imitating netCDF Dataset
@@ -74,9 +69,7 @@ class Dataset(object):
         v.attributes[kwargs['attribute']] = kwargs['description']
 
     def setVarData(self, varname, *args, **kwargs):
-        """Sets variable data array
-
-           setVarData(varname, data_array, **kwargs)
+        """Sets variable data array.
         """
         v = self.variables.get(varname)
         v.data_array.extend(args[0])
@@ -93,7 +86,7 @@ class Dataset(object):
             vd = sdm.Dimension(varname, d)
             self.dimensions[varname] = vd
         else:
-            print 'Error: Bad key passed'
+            print('Error: Bad key passed')
 
     @classmethod
     def readFromTSV(cls, file_string, globaltag="this_file"):
@@ -133,18 +126,18 @@ class Dataset(object):
         """set global and variable attributes from file"""
         for i, row in enumerate(tsv_scrub):
             if globaltag in row:
-                print 'Found global attribute "{}"'.format(row[1])
+                print('Found global attribute "{}"'.format(row[1]))
                 dataset.createGlobal(row[1], sf.list_split(row, row[1]))
 
             # set variable attributes and descriptions
             elif row[0] in tsv_variables and i < sd:
-                print 'Found variable "{}" attribute: {}'.format(row[0], row[1])
+                print('Found variable "{}" attribute: {}'.format(row[0], row[1]))
                 dataset.setVarAttribute(row[0], attribute=row[1],
                                         description=row[2])
 
         """create variable data arrays and update dataset"""
         tsv_dataarrays = [[] for n in tsv_variables]
-        for l in tsv_scrub[sd+2:ed]:
+        for l in tsv_scrub[sd + 2:ed]:
             [tda.append(sf.list_detect_type(i)) for
              tda, i in zip(tsv_dataarrays, l)]
 

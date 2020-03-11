@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+sys.path.append('../scripts')
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -41,7 +42,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'netcdf_csv'
-copyright = u'2015, Eric Buer'
+copyright = u'2020, EB'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -184,7 +185,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'netcdf_csv.tex', u'netcdf\\_csv Documentation',
-   u'Eric Buer', 'manual'),
+   u'EB', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -214,7 +215,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'netcdf_csv', u'netcdf_csv Documentation',
-     [u'Eric Buer'], 1)
+     [u'EB'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -228,7 +229,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'netcdf_csv', u'netcdf_csv Documentation',
-   u'Eric Buer', 'netcdf_csv', 'One line description of project.',
+   u'EB', 'netcdf_csv', 'Round trip converter for netcdf to xlsx.',
    'Miscellaneous'),
 ]
 
